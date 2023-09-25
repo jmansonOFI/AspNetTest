@@ -1,0 +1,47 @@
+﻿@page
+@model IndexModel
+
+<h1>To-Do List</h1>
+
+<!-- Display the to-do items -->
+<ul>
+    @foreach (var todo in Model.TodoList)
+    {
+        <li>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <!-- To-do item title -->
+                <span>
+                    @if (todo.IsDone)
+                    {
+                        <del>@todo.Title</del>
+                    }
+                    else
+                    {
+                        @todo.Title
+                    }
+                </span>
+
+                <!-- Buttons -->
+                <span>
+                    <!-- Toggle button -->
+                    <form method="post" asp-page-handler="ToggleTodo" style="display:inline;">
+                        <input type="hidden" name="id" value="@todo.Id" />
+                        <button type="submit">Toggle</button>
+                    </form>
+                    
+                    <!-- Delete button -->
+                    <form method="post" asp-page-handler="DeleteTodo" style="display:inline;">
+                        <input type="hidden" name="id" value="@todo.Id" />
+                        <button type="submit">Delete</button>
+                    </form>
+                </span>
+            </div>
+        </li>
+    }
+</ul>
+
+<!-- Form to add a new to-do item -->
+<form method="post" asp-page-handler="AddTodo">
+    <input asp-for="NewTodo" />
+    <button type="submit">Add</button>
+</form>
